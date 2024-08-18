@@ -5,7 +5,9 @@ import mongoose from "mongoose";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
-// import { DB_HOST } from "./config.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
