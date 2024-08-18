@@ -83,8 +83,6 @@ export const updateContact = async (req, res, next) => {
 
 export const updateStatusContact = async (req, res, next) => {
   try {
-    validateBody(updateContactStatusSchema);
-
     const { id } = req.params;
     const data = req.body;
 

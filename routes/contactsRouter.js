@@ -10,6 +10,8 @@ import {
 
 import isValidId from "../middlewares/isValidId.js";
 
+const updateContactStatusValidation = validateBody(updateContactStatusSchema);
+
 const contactsRouter = express.Router();
 
 contactsRouter.get("/", getAllContacts);
@@ -22,6 +24,13 @@ contactsRouter.post("/", createContact);
 
 contactsRouter.put("/:id", isValidId, updateContact);
 
-contactsRouter.patch("/:id/favorite", isValidId, updateStatusContact);
+contactsRouter.patch(
+  "/:id/favorite",
+  isValidId,
+  updateContactStatusValidation,
+  updateStatusContact
+);
 
 export default contactsRouter;
+
+validateBody(updateContactStatusSchema);
