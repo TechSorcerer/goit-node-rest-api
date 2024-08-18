@@ -5,9 +5,10 @@ import mongoose from "mongoose";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
-import dotenv from "dotenv";
+import "dotenv/config";
 
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const app = express();
 

@@ -3,6 +3,7 @@ import HttpError from "../helpers/HttpError.js";
 import {
   createContactSchema,
   updateContactSchema,
+  updateContactStatusSchema,
 } from "../schemas/contactsSchemas.js";
 import validateBody from "../helpers/validateBody.js";
 
@@ -52,7 +53,7 @@ export const deleteContact = async (req, res, next) => {
 
 export const createContact = async (req, res, next) => {
   try {
-    validateBody();
+    validateBody(createContactSchema);
 
     const result = await contactsService.addContact(req.body);
 
@@ -64,7 +65,7 @@ export const createContact = async (req, res, next) => {
 
 export const updateContact = async (req, res, next) => {
   try {
-    validateBody();
+    validateBody(updateContactSchema);
 
     const { id } = req.params;
 
@@ -73,6 +74,26 @@ export const updateContact = async (req, res, next) => {
     if (!result) {
       throw HttpError(404, `Contact with id=${id} not found`);
     }
+
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateStatusContact = async (req, res, next) => {
+  try {
+    validateBody(updateContactStatusSchema);
+
+    const { id } = req.params;
+    const data = req.body;
+
+    if (!("favorite" in data))
+      throw HttpError(400, "Body must contain key: favorite");
+
+    const result = await contactsService.updateStatusContact(id, data.favorite);
+
+    if (!result) throw HttpError(404, "Not found");
 
     res.json(result);
   } catch (error) {
