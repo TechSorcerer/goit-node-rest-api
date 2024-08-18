@@ -25,7 +25,7 @@ app.use((err, req, res, next) => {
 });
 
 mongoose
-  .connect(DB_HOST)
+  .connect(process.env.DB_HOST)
   .then(() => {
     console.log("Database connect success");
     app.listen(3000, () => {
