@@ -9,6 +9,7 @@ import {
 } from "../controllers/contactsControllers.js";
 
 import isValidId from "../middlewares/isValidId.js";
+import validateBody from "../helpers/validateBody.js";
 
 const updateContactStatusValidation = validateBody(updateContactStatusSchema);
 const updateContactValidation = validateBody(updateContactSchema);
