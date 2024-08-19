@@ -53,8 +53,6 @@ export const deleteContact = async (req, res, next) => {
 
 export const createContact = async (req, res, next) => {
   try {
-    validateBody(createContactSchema);
-
     const result = await contactsService.addContact(req.body);
 
     res.status(201).json(result);
@@ -65,8 +63,6 @@ export const createContact = async (req, res, next) => {
 
 export const updateContact = async (req, res, next) => {
   try {
-    validateBody(updateContactSchema);
-
     const { id } = req.params;
 
     const result = await contactsService.updateContactById(id, req.body);
