@@ -3,6 +3,7 @@ import HttpError from "../helpers/HttpError.js";
 import {
   createContactSchema,
   updateContactSchema,
+  updateContactStatusSchema,
 } from "../schemas/contactsSchemas.js";
 import validateBody from "../helpers/validateBody.js";
 
@@ -52,8 +53,6 @@ export const deleteContact = async (req, res, next) => {
 
 export const createContact = async (req, res, next) => {
   try {
-    validateBody();
-
     const result = await contactsService.addContact(req.body);
 
     res.status(201).json(result);
@@ -64,8 +63,6 @@ export const createContact = async (req, res, next) => {
 
 export const updateContact = async (req, res, next) => {
   try {
-    validateBody();
-
     const { id } = req.params;
 
     const result = await contactsService.updateContactById(id, req.body);
@@ -73,6 +70,21 @@ export const updateContact = async (req, res, next) => {
     if (!result) {
       throw HttpError(404, `Contact with id=${id} not found`);
     }
+
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateContactStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+
+    const result = await contactsService.updateContactStatus(id, data.favorite);
+
+    if (!result) throw HttpError(404, "Not found");
 
     res.json(result);
   } catch (error) {
