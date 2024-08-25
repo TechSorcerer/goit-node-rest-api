@@ -14,6 +14,6 @@ export const addContact = (name, email, phone) =>
 export const updateContactById = (id, data) =>
   Contact.findByIdAndUpdate(id, data);
 
-export const updateStatusContact = (id, isFavorite) => {
+export const updateContactStatus = (id, isFavorite) => {
   return Contact.findByIdAndUpdate(id, { favorite: isFavorite });
 };

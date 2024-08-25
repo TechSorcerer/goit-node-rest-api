@@ -5,7 +5,7 @@ import {
   deleteContact,
   createContact,
   updateContact,
-  updateStatusContact,
+  updateContactStatus,
 } from "../controllers/contactsControllers.js";
 
 import isValidId from "../middlewares/isValidId.js";
@@ -31,7 +31,7 @@ contactsRouter.patch(
   "/:id/favorite",
   isValidId,
   updateContactStatusValidation,
-  updateStatusContact
+  updateContactStatus
 );
 
 export default contactsRouter;

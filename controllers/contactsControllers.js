@@ -77,13 +77,10 @@ export const updateContact = async (req, res, next) => {
   }
 };
 
-export const updateStatusContact = async (req, res, next) => {
+export const updateContactStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = req.body;
-
-    if (!("favorite" in data))
-      throw HttpError(400, "Body must contain key: favorite");
 
     const result = await contactsService.updateStatusContact(id, data.favorite);
 
