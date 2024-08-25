@@ -7,6 +7,11 @@ import {
   updateContact,
   updateContactStatus,
 } from "../controllers/contactsControllers.js";
+import {
+  createContactSchema,
+  updateContactSchema,
+  updateContactStatusSchema,
+} from "../schemas/contactsSchemas.js";
 
 import isValidId from "../middlewares/isValidId.js";
 import validateBody from "../helpers/validateBody.js";
