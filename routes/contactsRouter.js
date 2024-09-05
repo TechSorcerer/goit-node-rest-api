@@ -16,11 +16,15 @@ import {
 import isValidId from "../middlewares/isValidId.js";
 import validateBody from "../helpers/validateBody.js";
 
+import authenticate from "../middlewares/authenticate.js";
+
 const updateContactStatusValidation = validateBody(updateContactStatusSchema);
 const updateContactValidation = validateBody(updateContactSchema);
 const createContactValidation = validateBody(createContactSchema);
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get("/", getAllContacts);
 
