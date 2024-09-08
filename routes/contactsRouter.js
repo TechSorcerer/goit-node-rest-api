@@ -17,6 +17,7 @@ import isValidId from "../middlewares/isValidId.js";
 import validateBody from "../helpers/validateBody.js";
 
 import authenticate from "../middlewares/authenticate.js";
+import upload from "../middlewares/upload.js";
 
 const updateContactStatusValidation = validateBody(updateContactStatusSchema);
 const updateContactValidation = validateBody(updateContactSchema);
@@ -32,7 +33,14 @@ contactsRouter.get("/:id", isValidId, getOneContact);
 
 contactsRouter.delete("/:id", isValidId, deleteContact);
 
-contactsRouter.post("/", createContactValidation, createContact);
+// upload.fields([{name: "avatarURL", maxCount: 1}])
+// upload.array("avatarURL", 8);
+contactsRouter.post(
+  "/",
+  upload.single("avatarURL"),
+  createContactValidation,
+  createContact
+);
 
 contactsRouter.put("/:id", isValidId, updateContactValidation, updateContact);
 

@@ -1,4 +1,12 @@
 import * as authServices from "../services/authServices.js";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
+
+import { Jimp } from "jimp";
+
+import HttpError from "../helpers/HttpError.js";
+
+const avatarsPath = path.resolve("public", "avatars");
 
 export const signup = async (req, res) => {
   const newUser = await authServices.signup(req.body);
@@ -53,6 +61,41 @@ export const updateSubscription = async (req, res) => {
     user: {
       email: updatedData.email,
       subscription: updatedData.subscription,
+    },
+  });
+};
+
+export const updateAvatar = async (req, res) => {
+  if (!req.file) {
+    throw HttpError(400, "Picture not found");
+  }
+
+  const { path: tempPath, filename } = req.file;
+
+  const newPath = path.join(avatarsPath, filename);
+  await fs.rename(tempPath, newPath);
+
+  Jimp.read(newPath, (err, img) => {
+    if (err) throw HttpError(500, err);
+    img.resize(200, 200).write(newPath);
+  });
+
+  const { _id, avatarURL } = req.user;
+  const avatar = path.join("avatars", filename);
+
+  const oldAvatarPath = path.resolve("public", avatarURL);
+  await fs.unlink(oldAvatarPath);
+
+  const updatedData = await authServices.updateUser(
+    { _id },
+    { avatarURL: avatar }
+  );
+
+  res.json({
+    message: "Avatar was updated",
+    user: {
+      email: updatedData.email,
+      newAvatarExternalLink: `${process.env.HOST}:${process.env.PORT}/${updatedData.avatarURL}`,
     },
   });
 };

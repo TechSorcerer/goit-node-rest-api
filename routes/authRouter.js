@@ -5,6 +5,7 @@ import {
   signin,
   signout,
   signup,
+  updateAvatar,
   updateSubscription,
 } from "../controllers/authControllers.js";
 import validateBody from "../helpers/validateBody.js";
@@ -14,6 +15,8 @@ import {
   userSigninSchema,
   userUpdateSchema,
 } from "../schemas/userSchemas.js";
+
+import upload from "../middlewares/upload.js";
 
 import authenticate from "../middlewares/authenticate.js";
 
@@ -28,5 +31,11 @@ authRouter.post("/signin", signinValidation, signin);
 authRouter.get("/corrent", authenticate, getCurrent);
 authRouter.post("/signout", authenticate, signout);
 authRouter.patch("", authenticate, updateValidation, updateSubscription);
+authRouter.patch(
+  "/avatars",
+  upload.single("avatarURL"),
+  authenticate,
+  updateAvatar
+);
 
 export default authRouter;
